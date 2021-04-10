@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/356302456.svg)](https://zenodo.org/badge/latestdoi/356302456)
 # SimurghAD
 Simurgh is a user level file system library for NVMMs. We proposes the concept of protected functions to provide hardware assisted security to user level libraries without direct OS involvement. Using protected functions Simurgh is able to provide fine grained security to user level code. The repository contains setups, instructions and benchmarks to produce results presented in SC21 submission. The experiments are divided into Simurgh file system library and the modified gem5 simulator and the ISA extensions for the proposed hardware instructions. 
 
