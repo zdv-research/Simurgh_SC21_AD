@@ -215,7 +215,7 @@ The benchmarks and the pipeline analysis were conducted using gem5 version `20.0
 
 ### Building gem5
 
-The steps to measure the performance of the proposed instructions, measuring the overhead of an empty syscall and the standard function call are listed below. Alternatively you can use the prepared docker image with the installed version of `gem5`. In this case you can simply skip the installation part and start from step 4 in `Testing the instruction` section:
+The steps to measure the performance of the proposed instructions, measuring the overhead of an empty syscall and the standard function call are listed below. Alternatively you can use the prepared docker image with the installed version of `gem5`. In this case you can simply skip the installation part and start from step 2 in `Testing the instruction` section:
 ```
 docker pull registry.gitlab.rlp.net/simrugh/simurghcd
 ```
@@ -247,10 +247,12 @@ The benchmarks need to be compiled using the m5 utilities to be able to run usin
 ```
 make GEM5=gem5_path all
 ```
-2. Run the compiled tests from within the `gem5` directory:
+2. Run the compiled tests from within the `gem5` directory, for the benchmarks `measure_jump` and `measure_retp` use `vmlinux-5.4.55-pteditor-sys_dummy` kernel image and for the benchmark `measure_syscall` use `vmlinux-5.4.55-m5_dump_syscall` kernel image.
 ```
-build/X86/gem5.opt configs/example/fs.py --disk-image=[DISK_IMAGE_PATH] --kernel=gem5_kernel/vmlinux-5.4.55-pteditor-sys_dumm --script=measure-jump
+build/X86/gem5.opt configs/example/fs.py --script=[binary of the benchmark] --disk-image=[disk image path] --kernel=[path to the kernel image]/[kernel-image] --caches --l2cache --cpu-type=DerivO3CPU
 ```
+The output of the simulation is stored in the file `stats.txt` which is generated in a directory called m5out. Look for the `system.cpu.numCycles` number in the file. The instructions are set to run for 100 times. 
+
 3. To connect to the simulator using the m5term terminal:
 ```
 cd gem5/util/term
@@ -261,9 +263,21 @@ make install
 ```
 ./m5term localhost 3456 
 ```
-5. After the simulator has loaded you can run the below command inside the gem5 shell
+### Saving and restoring from a checkpoint 
+
+Since running gem5 can take several minutes it is better to save a checkpoint after the simulator is being loaded. 
+1. Run the below command to load the simulator:
 ```
-m5 readfile > /tmp/test_instruction && chmod +x /tmp/measure_jump && /tmp/measure_jump
+build/X86/gem5.opt configs/example/fs.py --disk-image=[disk image path] --kernel=[path to the kernel image]/vmlinux-5.4.55-pteditor-sys_dummy
 ```
-To measure the overhead of an empty syscall you can run the `measure_syscall` and `vmlinux-5.4.55-m5_dump_syscall` kernel image using above instructions.
+You can run `m5 checkpoint` inside the simulator shell and exit the shell using `m5 exit`.
+
+2. Load the simulator and restore the checkpoint using the command below:
+```
+build/X86/gem5.opt configs/example/fs.py --disk-image=[disk image path] --kernel=[path to the kernel image]/vmlinux-5.4.55-pteditor-sys_dummy --cpu-type=DerivO3CPU --caches --l2cache --checkpoint-restore=1 --script=[binary of the benchmark]
+```
+3. After the simulator has loaded you can run the below command inside the gem5 shell
+```
+m5 readfile > /tmp/test && chmod +x /tmp/test && /tmp/test
+```
 The output of the simulation is stored in the file `stats.txt` which is generated in a directory called m5out. Look for the `system.switch_cpus.numCycles` number in the file. The instructions are set to run for 100 times. To get an average number for the instructions use the `parse_stat.py` in the `src/gem5` directory.  
