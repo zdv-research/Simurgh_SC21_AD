@@ -61,6 +61,7 @@ ISA::updateHandyM5Reg(Efer efer, CR0 cr0,
             m5reg.submode = RealMode;
         }
     }
+
     m5reg.cpl = csAttr.dpl;
     m5reg.paging = cr0.pg;
     m5reg.prot = cr0.pe;

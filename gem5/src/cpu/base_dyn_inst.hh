@@ -297,6 +297,11 @@ class BaseDynInst : public ExecContext, public RefCounted
         cpu->demapPage(vaddr, asn);
     }
 
+    bool isPageExecuteProtected(Addr vaddr, uint64_t asn)
+    {
+        return cpu->isPageExecuteProtected(vaddr, asn);
+    }
+
     Fault initiateMemRead(Addr addr, unsigned size, Request::Flags flags,
             const std::vector<bool>& byte_enable = std::vector<bool>());
 

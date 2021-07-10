@@ -59,3 +59,6 @@
 
 //Microops for printing out debug messages through M5
 ##include "debug.isa"
+
+//Extension to the microop to allow jmp_sec macroop
+##include "epop.isa"

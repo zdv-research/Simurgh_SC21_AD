@@ -2,6 +2,8 @@
 
 workload_dir="./"
 
+filebench_path="$BENCHMARK_REPO_DIR/$FILEBENCH_BIN_PATH"
+
 if [ $TARGET_FS == SIMURGH ]; then 
     root_dir="/pm:"
     root_dir_esc="\/pm:"
@@ -32,7 +34,7 @@ fi
 function set_preloads {
     if [[ $TARGET_FS == "SIMURGH" ]]
     then
-        export LD_PRELOAD="$BENCHMARK_REPO_DIR/$SIMURGH_LIB_PATH"
+        export LD_PRELOAD="$BENCHMARK_REPO_DIR/$SIMURGH_LIB_FB_PATH"
     fi
     if [[ $TARGET_FS == "SPLITFS" ]]
     then
@@ -93,7 +95,7 @@ replace_dir
 echo mkdir $root_dir
 set_preloads
 mkdir $root_dir
-filebench -f "$workload_dir/$workload.temp.f" >> "$workload_dir/output_filebench_$TARGET_FS-$workload.txt"
+$filebench_path -f "$workload_dir/$workload.temp.f" 2> /dev/null >> "$workload_dir/output_filebench_$TARGET_FS-$workload.txt"
 unset_preloads
 
 done

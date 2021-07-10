@@ -48,7 +48,7 @@ namespace X86ISA
 TlbEntry::TlbEntry()
     : paddr(0), vaddr(0), logBytes(0), writable(0),
       user(true), uncacheable(0), global(false), patBit(0),
-      noExec(false), lruSeq(0)
+      noExec(false), lruSeq(0), executeProtected(false)
 {
 }
 
@@ -56,7 +56,7 @@ TlbEntry::TlbEntry(Addr asn, Addr _vaddr, Addr _paddr,
                    bool uncacheable, bool read_only) :
     paddr(_paddr), vaddr(_vaddr), logBytes(PageShift), writable(!read_only),
     user(true), uncacheable(uncacheable), global(false), patBit(0),
-    noExec(false), lruSeq(0)
+    noExec(false), lruSeq(0), executeProtected(false)
 {}
 
 void
@@ -72,6 +72,7 @@ TlbEntry::serialize(CheckpointOut &cp) const
     SERIALIZE_SCALAR(patBit);
     SERIALIZE_SCALAR(noExec);
     SERIALIZE_SCALAR(lruSeq);
+    SERIALIZE_SCALAR(executeProtected);
 }
 
 void
@@ -87,6 +88,7 @@ TlbEntry::unserialize(CheckpointIn &cp)
     UNSERIALIZE_SCALAR(patBit);
     UNSERIALIZE_SCALAR(noExec);
     UNSERIALIZE_SCALAR(lruSeq);
+    UNSERIALIZE_SCALAR(executeProtected);
 }
 
 }

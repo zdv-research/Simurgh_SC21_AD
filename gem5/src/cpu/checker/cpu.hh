@@ -509,6 +509,10 @@ class CheckerCPU : public BaseCPU, public ExecContext
         this->dtb->demapPage(vaddr, asn);
     }
 
+    bool isPageExecuteProtected(Addr vaddr, uint64_t asn) override {
+        return this->itb->isPageExecuteProtected(vaddr, asn);
+    }
+
     // monitor/mwait funtions
     void armMonitor(Addr address) override { BaseCPU::armMonitor(0, address); }
     bool mwait(PacketPtr pkt) override { return BaseCPU::mwait(0, pkt); }

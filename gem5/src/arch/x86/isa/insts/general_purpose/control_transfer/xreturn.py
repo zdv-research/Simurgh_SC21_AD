@@ -83,6 +83,11 @@ def macroop RET_FAR {
     # Here we'd check if we're changing priviledge levels. We'll just hope
     # that doesn't happen yet.
 
+    # If we change the privilege level we actually check wether SS RPL and DPl
+    # matches the CS RPL
+
+    # AND: CPL <- ReturnCodeSegmentSelector(RPL);
+
     # Do stuff if they're equal
     andi t0, t2, 0xFC, flags=(EZF,), dataSize=2
     br label("processDescriptor"), flags=(CEZF,)

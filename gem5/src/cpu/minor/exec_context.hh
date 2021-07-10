@@ -402,6 +402,12 @@ class ExecContext : public ::ExecContext
         thread.getDTBPtr()->demapPage(vaddr, asn);
     }
 
+    bool
+    isPageExecuteProtected(Addr vaddr, uint64_t asn) override
+    {
+        return thread.getITBPtr()->isPageExecuteProtected(vaddr, asn);
+    }
+
     RegVal
     readCCRegOperand(const StaticInst *si, int idx) override
     {

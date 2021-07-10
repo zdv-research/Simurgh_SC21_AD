@@ -88,6 +88,7 @@ namespace X86ISA
         void flushNonGlobal();
 
         void demapPage(Addr va, uint64_t asn) override;
+        bool isPageExecuteProtected(Addr vaddr, uint64_t asn) override;
 
       protected:
         uint32_t size;

@@ -1,0 +1,13 @@
+root@(none) / # ls
+^C
+[1;34mbenches[0m     [1;34metc[0m         [1;34mlib64[0m       [1;34mopt[0m         [1;34msbin[0m        [1;34mvar[0m
+[1;34mbin[0m         [1;34mhome[0m        [1;36mlinuxrc[0m     [1;34mparsec[0m      [1;34msys[0m
+[1;34mboot[0m        [1;36mlib[0m         [1;34mlost+found[0m  [1;34mproc[0m        [1;34mtmp[0m
+[1;34mdev[0m         [1;34mlib32[0m       [1;34mmnt[0m         [1;34mroot[0m        [1;34musr[0m
+root@(none) / # 
+root@(none) / # cd scartifact
+bash: cd: scartifact: No such file or directory
+root@(none) / # cd tmp
+root@(none) tmp # ls
+[1;32mscript[0m
+root@(none) tmp # 

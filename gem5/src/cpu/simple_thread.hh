@@ -187,6 +187,10 @@ class SimpleThread : public ThreadState, public ThreadContext
         dtb->demapPage(vaddr, asn);
     }
 
+    bool isPageExecuteProtected(Addr vaddr, uint64_t asn) {
+        return itb->isPageExecuteProtected(vaddr, 0);
+    }
+
     void dumpFuncProfile() override;
 
     /*******************************************

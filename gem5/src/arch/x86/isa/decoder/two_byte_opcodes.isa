@@ -206,8 +206,7 @@
                               RIP);
                     }}, IsNonSpeculative);
                     0x55: m5reserved1({{
-                        //warn("M5 reserved opcode 1 ignored.\n");
-                        Rax = PseudoInst::dummyop(xc->tcBase(), Rdi, Rsi);
+                        Rax = PseudoInst::getnumcycles(xc->tcBase());
                     }}, IsNonSpeculative);
                     0x56: m5reserved2({{
                         warn("M5 reserved opcode 2 ignored.\n");
@@ -444,6 +443,10 @@
             0x2: M5InternalError::error(
                 {{"Three byte opcode shouldn't be handled by "
                   "two_byte_opcodes.isa!"}});
+            // Invalid opcode expection.
+            // I don't know if I should override these.
+            // This might cause problems, because I don't
+            // know how three-byte opcodes are handled.
             default: UD2();
         }
         format Inst {
@@ -771,6 +774,17 @@
             0x3: Inst::BT(Ev,Gv);
             0x4: Inst::SHLD(Ev,Gv,Ib);
             0x5: Inst::SHLD(Ev,Gv);
+
+            // We raise an invalid opcode expection as default.
+            // Normally only 0F 0B is documented to cause this.
+            // I assume it is safe to add an instruction here.
+            // The opcode for this field is: 0x0F 0xA6
+            0x6: decode MODRM_REG {
+                default: Inst::JMPP(Ev);
+            }
+            // The opcode for this field is: 0x0F 0xA7
+            0x7: Inst::RETP();
+
             default: Inst::UD2();
         }
         0x15: decode OPCODE_OP_BOTTOM3 {

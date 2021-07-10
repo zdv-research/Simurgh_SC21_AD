@@ -33,16 +33,6 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# These operations store the result in the first operand.
-# ADD_R_R := Add register to register
-# ADD_R_I := Add immediate (constant) to register
-# ADD_M_I := Add immediate (constant) to memory address
-# ADD_M_R := Add register to memory address
-# ADD_R_M := Add memory address to register
-# ADD_P_I := Add immediate (constant) to operand at address of instruction pointer
-# ADD_P_R := ...
-# ADD_R_P := ...
-
 microcode = '''
 def macroop ADD_R_R
 {

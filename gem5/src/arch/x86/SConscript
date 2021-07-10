@@ -49,6 +49,7 @@ if env['TARGET_ISA'] == 'x86':
     Source('fs_workload.cc')
     Source('insts/badmicroop.cc')
     Source('insts/microfpop.cc')
+    Source('insts/microepop.cc')
     Source('insts/microldstop.cc')
     Source('insts/micromediaop.cc')
     Source('insts/microop.cc')

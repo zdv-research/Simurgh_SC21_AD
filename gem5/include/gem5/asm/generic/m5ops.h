@@ -79,7 +79,7 @@
 #define M5OP_SE_PAGE_FAULT      0x61
 #define M5OP_DIST_TOGGLE_SYNC   0x62
 
-// Add the dummy operation in the list below.
+
 #define M5OP_FOREACH                                            \
     M5OP(m5_arm, M5OP_ARM)                                      \
     M5OP(m5_quiesce, M5OP_QUIESCE)                              \
@@ -102,7 +102,7 @@
     M5OP(m5_switch_cpu, M5OP_SWITCH_CPU)                        \
     M5OP(m5_add_symbol, M5OP_ADD_SYMBOL)                        \
     M5OP(m5_panic, M5OP_PANIC)                                  \
-    M5OP(m5_dummyop, M5OP_RESERVED1)                            \
+    M5OP(m5_getnumcycles, M5OP_RESERVED1)                            \
     M5OP(m5_work_begin, M5OP_WORK_BEGIN)                        \
     M5OP(m5_work_end, M5OP_WORK_END)                            \
     M5OP(m5_se_syscall, M5OP_SE_SYSCALL)                        \

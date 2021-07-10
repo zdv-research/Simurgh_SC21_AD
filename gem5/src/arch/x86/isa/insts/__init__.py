@@ -35,6 +35,7 @@
 
 categories = ["romutil",
               "general_purpose",
+              "isa_extension",
               "simd128",
               "simd64",
               "system",

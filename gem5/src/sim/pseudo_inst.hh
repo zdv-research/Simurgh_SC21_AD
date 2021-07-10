@@ -120,8 +120,7 @@ void workbegin(ThreadContext *tc, uint64_t workid, uint64_t threadid);
 void workend(ThreadContext *tc, uint64_t workid, uint64_t threadid);
 void m5Syscall(ThreadContext *tc);
 void togglesync(ThreadContext *tc);
-// Add a dummy function.
-uint64_t dummyop(ThreadContext *tc, uint64_t arg1, uint64_t arg2);
+uint64_t getnumcycles(ThreadContext *tc);
 
 /**
  * Execute a decoded M5 pseudo instruction
@@ -237,10 +236,6 @@ pseudoInst(ThreadContext *tc, uint8_t func, uint64_t &result)
         return true;
 
       case M5OP_RESERVED1:
-        // Maybe this is partly required to make things work in se-mode ?
-        //result = invokeSimcall<ABI>(tc, dummyop);
-        //return true;
-
       case M5OP_RESERVED2:
       case M5OP_RESERVED3:
       case M5OP_RESERVED4:

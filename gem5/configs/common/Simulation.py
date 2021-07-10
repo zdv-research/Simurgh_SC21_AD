@@ -196,7 +196,10 @@ def findCptDir(options, cptdir, testsys):
             if match:
                 cpts.append(match.group(1))
 
-        cpts.sort(lambda a,b: cmp(long(a), long(b)))
+        if six.PY3:
+            cpts.sort(key=lambda a: long(a))
+        else:
+            cpts.sort(lambda a,b: cmp(long(a), long(b)))
 
         cpt_num = options.checkpoint_restore
         if cpt_num > len(cpts):

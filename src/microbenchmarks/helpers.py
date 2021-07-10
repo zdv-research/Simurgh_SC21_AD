@@ -57,3 +57,13 @@ def is_float(value):
     return True
   except ValueError:
     return False
+
+def to_mega_ops (time_complete_ms, n_ops):
+    if time_complete_ms == 0:
+        time_complete_ms = 10000
+    return (n_ops/time_complete_ms)/1000
+
+def to_gbps (time_complete_ms, n_ops, op_size):
+    if time_complete_ms == 0:
+        return 0
+    return ((float(op_size)/1000000000.0)*n_ops)/(time_complete_ms/1000.0)

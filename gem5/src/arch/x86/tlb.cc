@@ -169,6 +169,15 @@ TLB::demapPage(Addr va, uint64_t asn)
     }
 }
 
+bool
+TLB::isPageExecuteProtected(Addr va, uint64_t asn)
+{
+    // Get the start of the virtual page
+    // Note: This is only valid for 64-bit long mode !!!
+    TlbEntry *entry = trie.lookup(va);
+    return (entry != NULL) ? entry->executeProtected : false;
+}
+
 namespace
 {
 
@@ -417,24 +426,35 @@ TLB::translate(const RequestPtr &req,
 
             DPRINTF(TLB, "Entry found with paddr %#x, "
                     "doing protection checks.\n", entry->paddr);
+
             // Do paging protection checks.
-            bool inUser = (m5Reg.cpl == 3 &&
-                    !(flags & (CPL0FlagBit << FlagShift)));
+
+            // Goal:
+            // We want to be able to execute code in a page which is marked
+            // with the special ep flag. This means, that the page must
+            // not be writeable from user space.
+
+            // Do paging protection checks.
+            bool inUser = (m5Reg.cpl == 3 && !(flags & (CPL0FlagBit << FlagShift)));
             CR0 cr0 = tc->readMiscRegNoEffect(MISCREG_CR0);
+            // This check should already be enough to prevent writing to a secure page.
+            // We just have to make it as not writeable
             bool badWrite = (!entry->writable && (inUser || cr0.wp));
-            if ((inUser && !entry->user) || (mode == Write && badWrite)) {
+            
+
+            if ((inUser && !entry->user) || (mode == Write && badWrite) || (inUser && entry->executeProtected && mode == Write)) {
                 // The page must have been present to get into the TLB in
                 // the first place. We'll assume the reserved bits are
                 // fine even though we're not checking them.
-                return std::make_shared<PageFault>(vaddr, true, mode, inUser,
-                                                   false);
+                return std::make_shared<PageFault>(vaddr, true, mode, inUser, false);
             }
+
             if (storeCheck && badWrite) {
                 // This would fault if this were a write, so return a page
                 // fault that reflects that happening.
-                return std::make_shared<PageFault>(vaddr, true, Write, inUser,
-                                                   false);
+                return std::make_shared<PageFault>(vaddr, true, Write, inUser, false);
             }
+
 
             Addr paddr = entry->paddr | (vaddr & mask(entry->logBytes));
             DPRINTF(TLB, "Translated %#x -> %#x.\n", vaddr, paddr);

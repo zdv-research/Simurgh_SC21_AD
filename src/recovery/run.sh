@@ -1,6 +1,6 @@
 #!/bin/bash
 
-linux_kernel_source_path="$BENCHMARK_REPO_DIR/$LINUX_DATA_PACKED_AND_UNPACKED"
+linux_kernel_source_path="$BENCHMARK_REPO_DIR/$LINUX_DATA_UNPACKED"
 
 gcc -shared -fPIC -o dummylib.so dummylib.cpp
 g++ -fPIC main.cpp -o main.o -I . -L. dummylib.so

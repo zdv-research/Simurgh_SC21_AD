@@ -54,6 +54,7 @@ output header {{
 
 #include "arch/generic/debugfaults.hh"
 #include "arch/x86/insts/macroop.hh"
+#include "arch/x86/insts/microepop.hh"
 #include "arch/x86/insts/microfpop.hh"
 #include "arch/x86/insts/microldstop.hh"
 #include "arch/x86/insts/micromediaop.hh"

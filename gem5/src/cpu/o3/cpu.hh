@@ -209,6 +209,11 @@ class FullO3CPU : public BaseO3CPU
         this->dtb->demapPage(vaddr, asn);
     }
 
+    bool isPageExecuteProtected(Addr vaddr, uint64_t asn) {
+        return this->itb->isPageExecuteProtected(vaddr, asn)
+            || this->dtb->isPageExecuteProtected(vaddr, asn);
+    }
+
     /** Ticks CPU, calling tick() on each stage, and checking the overall
      *  activity to see if the CPU should deschedule itself.
      */

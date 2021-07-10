@@ -268,16 +268,6 @@ addsymbol(ThreadContext *tc, Addr addr, Addr symbolAddr)
     Loader::debugSymbolTable->insert(addr, symbol);
 }
 
-// Add a new dummy instruction to test things
-uint64_t
-dummyop(ThreadContext *tc, uint64_t arg1, uint64_t arg2)
-{
-    DPRINTF(PseudoInst, "PseudoInst::dummyop(%i, %i)\n", arg1, arg2);
-    if (!FullSystem)
-        panicFsOnlyPseudoInst("dummyop");
-    return arg1 % arg2;
-}
-
 uint64_t
 initParam(ThreadContext *tc, uint64_t key_str1, uint64_t key_str2)
 {
@@ -606,6 +596,11 @@ workend(ThreadContext *tc, uint64_t workid, uint64_t threadid)
             exitSimLoop("work items exit count reached");
         }
     }
+}
+
+uint64_t getnumcycles(ThreadContext *tc) {
+    // TODO: Why doesn't this work ?
+    return static_cast<uint64_t>(tc ->getCpuPtr()->ticksToCycles(tc ->getCpuPtr()->nextCycle()));
 }
 
 } // namespace PseudoInst

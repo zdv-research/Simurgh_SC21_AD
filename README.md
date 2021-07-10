@@ -1,4 +1,3 @@
-[![DOI](https://zenodo.org/badge/356302456.svg)](https://zenodo.org/badge/latestdoi/356302456)
 # SimurghAD
 Simurgh is a user level file system library for NVMMs. We proposes the concept of protected functions to provide hardware assisted security to user level libraries without direct OS involvement. Using protected functions Simurgh is able to provide fine grained security to user level code. The repository contains setups, instructions and benchmarks to produce results presented in SC21 submission. The experiments are divided into Simurgh file system library and the modified gem5 simulator and the ISA extensions for the proposed hardware instructions. 
 
@@ -36,16 +35,22 @@ Simurgh is a user level file system library for NVMMs. We proposes the concept o
 The repository contains a global `config.sh` and following scripts to run the file system benchmarks:
 ```bash
 run_microbenchmarks.sh
-run_filebench.sh
 run_git.sh
+run_filebench.sh
+run_tar.sh
 run_recovery.sh
 ```
 
 The `src` directory contains the actual scripts and workloads to perform the benchmarks. They are either executed by the scripts above or manually using instructions below.
+The `data` directory contains sample data, that is used for some benchmarks.
 
 Simurgh is provided as pre-compiled binaries found at the top level of the repository.  
 
-`gem5` folder contains the modified version of the [gem5 simulator](https://github.com/gem5/gem5). `gem5_kernel` contains ready to use modified kernel images.
+The `gem5` directory contains the modified version of the [gem5 simulator](https://github.com/gem5/gem5). `gem5_kernel` contains ready to use modified kernel images.
+
+The `binaries` directory contains prebuilt executables of the benchmark applications.
+
+Other top level directories contain copies of the source code of the correct versions of the benchmark applications.
 
 
 ## Prerequisites
@@ -54,6 +59,12 @@ All file system experiments are performed on CentOS 8.2 running Linux kernel `5.
 Some benchmarks are compiled on the fly by their corresponding scripts.  
 The required `gcc` and `g++` version is `8.3.1`.
 Some benchmarks use python (version `3.6.8`) to be scheduled and `matplotlib` for their output.
+
+The following packages are required for compiling the benchmarks.
+
+```
+libtool
+```
 
 ### Environment
 
@@ -68,12 +79,12 @@ The returned `dev` name (e.g. `namespace0.0`) has to be set in the `config.sh` a
 
 #### Simurgh
 
-Applications can use Simurgh by preloading the Simurgh file system library (`LD_PRELOAD=libsimurgh.so`).
-The shared DRAM and persistent address space can be formatted using the `simurgh_utils` binary with `f` argument. 
+Applications can use Simurgh by preloading the Simurgh file system library (`LD_PRELOAD=libfs.so`).
+The shared DRAM and persistent address space can be formatted using the `simurgh` binary with `f` argument. 
 For benchmarks, that are performed by our supplied bash scripts, a manual preload or format is not required.
 
 #### NOVA
-Our benchmarks use [`NOVA`](https://github.com/NVSL/NOVA) version `5.1` within kernel `5.1.0`. The kernel has to be build with NOVA modules enabled.  
+Our benchmarks use [`NOVA`](https://github.com/NVSL/linux-nova/tree/5.1) version `5.1` within kernel `5.1.0`. The kernel has to be build with NOVA modules enabled.  
 Please follow the build and install instructions in `NOVA`'s repository. We configured NOVA with inline writes.
 
 #### EXT4DAX
@@ -98,25 +109,30 @@ CFLAGS = -g -O2 -Wall -fno-inline -fno-inline-small-functions
 LDFLAGS = -fno-inline-small-functions -fno-inline
 ```
 
-`GIT_BIN_PATH` in `config.sh` needs to be set accordingly (e.g. `../git-master/git`).
-
+`GIT_BIN_PATH` in `config.sh` needs to be set accordingly. Its default value points to a prebuilt binary within inside the `binaries` directory.
 #### Filebench
-[Filebench version `1.5-alpha3`](https://github.com/filebench/filebench/tree/1.5-alpha3) needs to be installed. 
+Our benchmarks use [Filebench version `1.5-alpha3`](https://github.com/filebench/filebench/tree/1.5-alpha3). 
+`FILEBENCH_BIN_PATH` in `config.sh` needs to be set accordingly. Its default value points to a prebuilt binary within inside the `binaries` directory.
 
 #### Tar
-`tar` version `1.3` is used by our benchmarks.
+`tar` version `1.30` is used by our benchmarks.
+`TAR_BIN_PATH` in `config.sh` needs to be set accordingly. Its default value points to a prebuilt binary within inside the `binaries` directory.
 
 #### YCSB
-We used the `YCSB` benchmark and workload generator supplied with SplitFS. The source code is available in the `SplitFS` repository. Their run script has to be modified to preload `libsimurgh.so`.
+We used the `YCSB` benchmark and workload generator supplied with SplitFS. The source code is available in the `SplitFS` repository. Their run script has to be modified to preload Simurgh's `libfs.so`.
 
 
 ### Data
-The `git`, `tar` and `recovery` benchmarks use the Linux source code files.  
-Our runs use the `linux-5.6.14` source code.
-The `config.sh` needs to be configured with the correct paths.  
-`LINUX_DATA_UNPACKED` needs to point to the directory containing the source code.  
-`LINUX_DATA_PACKED` points to a packed tar file containing the source code. 
-`LINUX_DATA_PACKED_AND_UNPACKED`, should point to a directory similar to `LINUX_DATA_UNPACKED`, that contains also a copy of the packed tar file.
+
+Please use the `prepare.sh` script, to load additional data used by benchmarks.
+
+The `git`, `tar` and `recovery` benchmarks use the Linux 5.6.14 source code files.  
+
+The `config.sh` contains paths poointing to the data directories.
+`LINUX_DATA_UNPACKED` points to the directory containing the Linux source code.  
+`LINUX_DATA_PACKED` points to a packed tar file containing the Linux source code. 
+
+Using `prepare.sh` should set up everything properly.
 
 
 ### System
@@ -199,8 +215,11 @@ The benchmarks and the pipeline analysis were conducted using gem5 version `20.0
 
 ### Building gem5
 
-The steps to measure the performance of the proposed instructions, measuring the overhead of an empty syscall and the standard function call are listed below. 
-
+The steps to measure the performance of the proposed instructions, measuring the overhead of an empty syscall and the standard function call are listed below. Alternatively you can use the prepared docker image with the installed version of `gem5`. In this case you can simply skip the installation part and start from step 4 in `Testing the instruction` section:
+```
+docker pull registry.gitlab.rlp.net/simrugh/simurghcd
+```
+For compiling and building gem5 manually follow the steps below:
 
 1. Compile the modified `gem5` version. See the [gem5 documentation](https://www.gem5.org/documentation/general_docs/building) for more information. On Ubuntu you can install all the required packages using the below command:
 
@@ -222,18 +241,29 @@ it is possible to boot a complete Linux operating system inside gem5.
 
 The benchmarks measures the cycle count required for the `jmpp`/`pret`, `SYSCALL_64`/`SYSRET_TO_64` instructions and a complete Linux system call from user space. All measurement are divided into related execution blocks, to show the cycle count required for each relevant part of an instruction. The `m5_reset_stats` and `m5_dump_stats` pseudo instructions allow measuring the cycle count. To achieve minimal measurement overhead, the parameters required to be passed to these instructions in the `rdi` and `rsi` registers were hardcoded. That way, a single macro-op is enough to reset or dump the statistics. Each measurement was performed 100 times to account for caching or speculative execution effects.
 
-The benchmarks need to be compiled using the m5 utilities to be able to run using the gem5 simulator. The folder `src/gem5` contains the tests to measure the overhead of the new instructions and also an empty system call on the modified gem5. The file `src/gem5/test_code_measure_stats.c` performs 100 iterations of the `jmpp` and `pret` instructions. To compile it for a Linux target machine run:
-```
-gcc -o test_instruction src/gem5/benchmarks/test_code_measure_stats.c -I src/gem5/benchmarks/include/ gem5/util/m5/src/x86/m5op.S
-```
-Run the compiled tests from within the `gem5` directory:
-```
-build/X86/gem5.opt ../src/gem5/fs.py --disk-image=[DISK_IMAGE_PATH] --kernel=[KERNEL_IMAGE_PATH] --script=test_instruction
-```
-After the simulator has loaded you can run the below command inside the gem5 shell
-```
-m5 readfile > /tmp/test_instruction && chmod +x /tmp/test_instruction && /tmp/test_instruction
-```
-To measure the overhead of an empty syscall you can run the `syscall_dummy` benchmark in the `gem5_config` folder according to the above instructions. 
+The benchmarks need to be compiled using the m5 utilities to be able to run using the gem5 simulator. The folder `src/gem5` contains the tests to measure the overhead of the new instructions and also an empty system call on the modified gem5. The files inside `src/gem5/benchmarks` contain the test sources and the binaries to measure the overhead fo an empty syscall and `jmpp` and `retp` instructions. 
+1. You can simply compile it for a Linux target by running:
 
-
+```
+make GEM5=gem5_path all
+```
+2. Run the compiled tests from within the `gem5` directory:
+```
+build/X86/gem5.opt configs/example/fs.py --disk-image=[DISK_IMAGE_PATH] --kernel=gem5_kernel/vmlinux-5.4.55-pteditor-sys_dumm --script=measure-jump
+```
+3. To connect to the simulator using the m5term terminal:
+```
+cd gem5/util/term
+make
+make install
+```
+4. You can connect the terminal by running:
+```
+./m5term localhost 3456 
+```
+5. After the simulator has loaded you can run the below command inside the gem5 shell
+```
+m5 readfile > /tmp/test_instruction && chmod +x /tmp/measure_jump && /tmp/measure_jump
+```
+To measure the overhead of an empty syscall you can run the `measure_syscall` and `vmlinux-5.4.55-m5_dump_syscall` kernel image using above instructions.
+The output of the simulation is stored in the file `stats.txt` which is generated in a directory called m5out. Look for the `system.switch_cpus.numCycles` number in the file. The instructions are set to run for 100 times. To get an average number for the instructions use the `parse_stat.py` in the `src/gem5` directory.  

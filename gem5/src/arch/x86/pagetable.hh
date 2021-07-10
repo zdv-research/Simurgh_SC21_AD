@@ -91,6 +91,9 @@ namespace X86ISA
         // A sequence number to keep track of LRU.
         uint64_t lruSeq;
 
+        // Can this entry be accessed when running in secure mode.
+        bool executeProtected;
+
         TlbEntryTrie::Handle trieHandle;
 
         TlbEntry(Addr asn, Addr _vaddr, Addr _paddr,
@@ -139,7 +142,9 @@ namespace X86ISA
     BitUnion64(PageTableEntry)
         Bitfield<63> nx;
         Bitfield<51, 12> base;
-        Bitfield<11, 9> avl;
+        Bitfield<11> avl2;
+        Bitfield<10> ep; // is this page secured
+        Bitfield<9> avl1;
         Bitfield<8> g;
         Bitfield<7> ps;
         Bitfield<6> d;
@@ -181,6 +186,7 @@ namespace X86ISA
         {
             pte = 0;
             pte.u = 1;
+            pte.ep = 0;
             paddr(_paddr);
             present(_present);
             uncacheable(_uncacheable);

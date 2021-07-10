@@ -36,15 +36,15 @@
 microcode = ""
 #let {{
 #    class LDS(Inst):
-#       "GenFault ${new UnimpInstFault}"
+#       "GenFault ${new UnimpInstFault}" // Load far pointer using DS.
 #    class LES(Inst):
-#       "GenFault ${new UnimpInstFault}"
+#       "GenFault ${new UnimpInstFault}" // Load far pointer using ES.
 #    class LFS(Inst):
-#       "GenFault ${new UnimpInstFault}"
+#       "GenFault ${new UnimpInstFault}" // Load far pointer using FS.
 #    class LGS(Inst):
-#       "GenFault ${new UnimpInstFault}"
+#       "GenFault ${new UnimpInstFault}" // Load far pointer using GS.
 #    class LSS(Inst):
-#       "GenFault ${new UnimpInstFault}"
+#       "GenFault ${new UnimpInstFault}" // Load far pointer using SS.
 #    class MOV_SEG(Inst):
 #       "GenFault ${new UnimpInstFault}"
 #    class POP(Inst):

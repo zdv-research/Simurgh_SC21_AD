@@ -302,6 +302,11 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        // TODO: PTEditor does somehow not allow me to change this bit.
+        // I just force it to 1 for now.
+        // Does gem5 actually mean pgd/pml5 and not p4d/pml4 ?
+        pte.ep = 1;
+        entry.executeProtected = pte.ep;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -318,6 +323,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = entry.writable && pte.w;
         entry.user = entry.user && pte.u;
+        entry.executeProtected = entry.executeProtected && pte.ep;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -332,6 +338,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = entry.writable && pte.w;
         entry.user = entry.user && pte.u;
+        entry.executeProtected = entry.executeProtected && pte.ep;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -363,6 +370,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = entry.writable && pte.w;
         entry.user = entry.user && pte.u;
+        entry.executeProtected = entry.executeProtected && pte.ep;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -394,6 +402,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.executeProtected = pte.ep;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -424,6 +433,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = entry.writable && pte.w;
         entry.user = entry.user && pte.u;
+        entry.executeProtected = entry.executeProtected && pte.ep;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -444,6 +454,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.executeProtected = pte.ep;
         if (!pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -475,6 +486,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.executeProtected = pte.ep;
         if (!pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -492,6 +504,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.executeProtected = pte.ep;
         if (!pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -510,8 +523,9 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
     }
     if (doEndWalk) {
         if (doTLBInsert)
-            if (!functional)
+            if (!functional) {
                 walker->tlb->insert(entry.vaddr, entry);
+            }
         endWalk();
     } else {
         PacketPtr oldRead = read;

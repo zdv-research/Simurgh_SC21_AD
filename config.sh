@@ -4,8 +4,9 @@
 ### paths
 ##########################
 
-export SIMURGH_LIB_PATH="libsimurgh.so"
-export SIMURGH_UTILS_PATH="simurgh_utils"
+export SIMURGH_LIB_PATH="libfs.so"
+export SIMURGH_LIB_FB_PATH="libfs_filebench.so"
+export SIMURGH_UTILS_PATH="simurgh"
 
 # set those according to your SplitFS install
 export SPLITFS_PATH="../SplitFS/splitfs"
@@ -15,8 +16,10 @@ export SPLITFS_LIB_PATH="../SplitFS/splitfs/libnvp.so"
 # set those according to your PMFS build
 export PMFS_MODULE_PATH="../PMFS-new/pmfs.ko"
 
-# set this according to the directory of the custom built git 
-export GIT_BIN_PATH="../git-master/git"
+
+export GIT_BIN_PATH="./git-2.28.0/git"
+export FILEBENCH_BIN_PATH="./binaries/bin/filebench"
+export TAR_BIN_PATH="./binaries/tar"
 
 
 
@@ -35,6 +38,6 @@ export NDCTL_NAMESPACE="namespace0.0"
 ##########################
 
 # set this according your prepared data location
-export LINUX_DATA_UNPACKED="../linux"
-export LINUX_DATA_PACKED="../linux.tar"
-export LINUX_DATA_PACKED_AND_UNPACKED="../linux_plus_linuxtar"
+export LINUX_DATA_PACKED="./data/linux.tar"
+export LINUX_DATA_UNPACKED="./data/linux-5.6.14"
+export RAM_DISK="/mnt/ramdisk"

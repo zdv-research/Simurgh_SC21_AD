@@ -7,6 +7,8 @@ import numpy as np
 from datetime import datetime
 import pprint
 
+from helpers import to_gbps, to_mega_ops
+
 # Final settings
 worker_indexes_for_barplots = [0, 1, 2, 3, 4, 5]
 file_indexes_indexes_for_bar_lineplots = [0]
@@ -213,11 +215,11 @@ benchmark_descriptions = [
     #     "additional_bandwith_plot": True,
     #     "op_size": 4096
     # },
-    {
-        "source_title": "read_private_2M_block_in_shared_file_MT",
-        "additional_bandwith_plot": True,
-        "op_size": 2097152
-    },
+    # {
+    #     "source_title": "read_private_2M_block_in_shared_file_MT",
+    #     "additional_bandwith_plot": True,
+    #     "op_size": 2097152
+    # },
     # {
     #     "source_title": "read_private_2M_block_in_shared_file_MP",
     #     "additional_bandwith_plot": True,
@@ -325,15 +327,7 @@ def load_single_result (directory, source_title):
         return json.load(json_file)
 
 
-def to_mega_ops (time_complete_ms, n_ops):
-    if time_complete_ms == 0:
-        time_complete_ms = 10000
-    return (n_ops/time_complete_ms)/1000
 
-def to_gbps (time_complete_ms, n_ops, op_size):
-    if time_complete_ms == 0:
-        return 0
-    return ((float(op_size)/1000000000.0)*n_ops)/(time_complete_ms/1000.0)
 
 def autolabel(rects, ax):
         for rect in rects:
@@ -497,8 +491,9 @@ for benchmark in benchmarks:
                     real_file_indexes = benchmark["runs"][i]["run_description"]["custom_file_indexes_for_bar_lineplots"]
 
                 def correct_time (time_complete_ms, n_ops, worker_amount):
-                    overhead_ms = 0.0000184 # 46 cycles * 0.4 ns
-                    return time_complete_ms + overhead_ms * n_ops / worker_amount
+                    # overhead_ms = 0.0000184 # 46 cycles * 0.4 ns
+                    # return time_complete_ms + overhead_ms * n_ops / worker_amount
+                    return time_complete_ms
 
                 scalability_values = []
                 #for w in range(0, len(benchmark["runs"][0]["result"]["worker_amounts"])):

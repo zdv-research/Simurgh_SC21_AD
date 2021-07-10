@@ -84,11 +84,17 @@ def macroop IRET_PROT {
 
 protToVirtFallThrough:
 
+    # Check if the target address is stored in an ep-page
+    rdep t1, flags=(EZF,), atCPL0=True
+    # Load a CPL value of 0
+    limm t5, 0
+    # If ep is set, skip the default behaviour
+    br label("skipDefaultTempCPL"), flags=(CEZF,)
 
-
-    #temp_CPL = temp_CS.rpl
+    # This is the default behaviour: temp_CPL = temp_CS.rpl
     andi t5, t2, 0x3
 
+skipDefaultTempCPL:
 
 ###
 ### Read in the info for the new CS segment.

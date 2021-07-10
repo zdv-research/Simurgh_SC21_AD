@@ -540,6 +540,12 @@ class SimpleExecContext : public ExecContext {
         thread->demapPage(vaddr, asn);
     }
 
+    bool
+    isPageExecuteProtected(Addr vaddr, uint64_t asn) override
+    {
+        return thread->isPageExecuteProtected(vaddr, asn);
+    }
+
     void
     armMonitor(Addr address) override
     {

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 git_path="$BENCHMARK_REPO_DIR/$GIT_BIN_PATH"
-linux_kernel_source_path="$BENCHMARK_REPO_DIR/$LINUX_DATA_PACKED_AND_UNPACKED"
+linux_kernel_source_path="$BENCHMARK_REPO_DIR/$LINUX_DATA_UNPACKED"
 linux_kernel_source_folder_name=$(basename $linux_kernel_source_path)
 
 current_date=$(date +"%Y-%m-%d_%H-%M-%S");
@@ -41,13 +41,10 @@ unset_preloads
 for run_i in {1..1}
 do
 
-echo "RUN $run_i ..."
-
 rm -rf /tmp/*
 
 if [[ $TARGET_FS == "SIMURGH" ]]
 then
-    echo TEST
     (cd $BENCHMARK_REPO_DIR/src/bash/ && ./mount.sh)
 
     repo_path="/pm:/git_dir"
@@ -179,7 +176,7 @@ sync; echo 3 > /proc/sys/vm/drop_caches;
 echo "Do COMMIT:"
 echo $git_exec commit -m "yeah"
 set_preloads
-{ time $git_exec commit -q -m "yeah" ; } 2> $output_folder/6_commit_timing_$run_i.txt
+{ time $git_exec commit -q -m "yeah" >> /dev/null ; } 2> $output_folder/6_commit_timing_$run_i.txt
 unset_preloads
 if [[ $2 == "VALGRIND" ]] ; then mv callgrind.out "$output_folder/callgrind_6_commit_timing_$run_i.out" ; fi
 cat $output_folder/6_commit_timing_$run_i.txt

@@ -331,6 +331,7 @@ class ExecContext {
      * Invalidate a page in the DTLB <i>and</i> ITLB.
      */
     virtual void demapPage(Addr vaddr, uint64_t asn) = 0;
+    virtual bool isPageExecuteProtected(Addr vaddr, uint64_t asn) = 0;
     virtual void armMonitor(Addr address) = 0;
     virtual bool mwait(PacketPtr pkt) = 0;
     virtual void mwaitAtomic(ThreadContext *tc) = 0;

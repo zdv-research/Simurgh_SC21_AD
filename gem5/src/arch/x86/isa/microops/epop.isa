@@ -1,0 +1,290 @@
+// Copyright (c) 2007 The Hewlett-Packard Development Company
+// Copyright (c) 2012-2013 Mark D. Hill and David A. Wood
+// Copyright (c) 2015 Advanced Micro Devices, Inc.
+//
+// All rights reserved.
+//
+// The license below extends only to copyright in the software and shall
+// not be construed as granting a license to any other intellectual
+// property including but not limited to intellectual property relating
+// to a hardware implementation of the functionality of the software
+// licensed hereunder.  You may use the software subject to the license
+// terms below provided that you ensure that this notice is replicated
+// unmodified and in its entirety in all distributions of the software,
+// modified or unmodified, in source code or in binary form.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met: redistributions of source code must retain the above copyright
+// notice, this list of conditions and the following diSeclaimer;
+// redistributions in binary form must reproduce the above copyright
+// notice, this list of conditions and the following diSeclaimer in the
+// documentation and/or other materials provided with the distribution;
+// neither the name of the copyright holders nor the names of its
+// contributors may be used to endorse or promote products derived from
+// this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISecLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+//////////////////////////////////////////////////////////////////////////
+//
+// EpOp Microop templates
+//
+//////////////////////////////////////////////////////////////////////////
+
+def template MicroEpOpDeclare {{
+    class %(class_name)s : public %(base_class)s
+    {
+      public:
+        %(class_name)s(ExtMachInst _machInst,
+                const char * instMnem, uint64_t setFlags,
+                InstRegIndex _src1, uint8_t _dataSize,
+                uint8_t _addressSize,
+                Request::FlagsType _memFlags,
+                uint16_t _ext);
+
+        Fault execute(ExecContext *, Trace::InstRecord *) const;
+        Fault initiateAcc(ExecContext *, Trace::InstRecord *) const;
+        Fault completeAcc(PacketPtr, ExecContext *, Trace::InstRecord *) const;
+    };
+}};
+
+def template MicroEpOpConstructor {{
+    %(class_name)s::%(class_name)s(
+            ExtMachInst machInst, const char * instMnem, uint64_t setFlags,
+            InstRegIndex _src1, uint8_t _dataSize,
+            uint8_t _addressSize,
+            Request::FlagsType _memFlags,
+            uint16_t _ext):
+        %(base_class)s(machInst, "%(mnemonic)s", instMnem, setFlags,
+                _src1, _dataSize, _addressSize, _memFlags, _ext,
+                %(op_class)s)
+    {
+        %(constructor)s;
+    }
+}};
+
+def template MicroEpOpExecute {{
+    Fault %(class_name)s::execute(ExecContext *xc,
+          Trace::InstRecord *traceData) const
+    {
+        Fault fault = NoFault;
+
+        %(op_decl)s;
+        %(op_rd)s;
+
+        fault = readMemAtomic(xc, traceData, %(vaddr)s, Mem, dataSize, memFlags);
+
+        if (fault == NoFault) {
+            %(code)s;
+        } else if (memFlags & Request::PREFETCH) {
+            // For prefetches, ignore any faults/exceptions.
+            return NoFault;
+        }
+        if(fault == NoFault)
+        {
+            %(op_wb)s;
+        }
+
+        return fault;
+    }
+}};
+
+def template MicroEpOpInitiateAcc {{
+    Fault %(class_name)s::initiateAcc(ExecContext * xc,
+            Trace::InstRecord * traceData) const
+    {
+        Fault fault = NoFault;
+
+        %(op_decl)s;
+
+        // TODO: I have no idea why _sourceIndex is not defined...
+        uint8_t _sourceIndex;
+        // Use the variable to prevent a gcc warning.
+        _sourceIndex = 0;
+
+        %(op_rd)s;
+
+        fault = initiateMemRead(xc, traceData, %(vaddr)s, %(memDataSize)s, memFlags);
+
+        return fault;
+    }
+}};
+
+def template MicroEpOpCompleteAcc {{
+    Fault %(class_name)s::completeAcc(PacketPtr pkt, ExecContext * xc,
+                                      Trace::InstRecord * traceData) const
+    {
+        Fault fault = NoFault;
+
+        %(op_decl)s;
+        %(op_rd)s;
+
+        getMem(pkt, Mem, dataSize, traceData);
+
+        %(code)s;
+
+        if(fault == NoFault)
+        {
+            %(op_wb)s;
+        }
+
+        return fault;
+    }
+}};
+
+
+let {{
+
+    import six
+
+    # Make these empty strings so that concatenating onto
+    # them will always work.
+    header_output = ""
+    decoder_output = ""
+    exec_output = ""
+
+    class EpOpMeta(type):
+        def buildCppClasses(self, name, Name, \
+                code, op_class):
+
+            # Globals to stick the output in
+            global header_output
+            global decoder_output
+            global exec_output
+
+            base = "X86ISA::EpOp"
+
+            opt_args = []
+            if self.op_class:
+                opt_args.append(self.op_class)
+
+            # Dirty hack to get gem5 to recognize all symbols
+            # The compiler should remove these lines.
+            # DO NOT assign a value to Mem! This will otherwise
+            # set the `isStore` flag to true.
+            # Reading the value will only set the `isLoad` flag.
+            if op_class is not None and op_class.startswith("MemRead"):
+                code += "auto tmp = Mem; tmp = 0;"
+
+            # Get everything ready for the substitution
+            iop = InstObjParams(name, Name, base,
+                    { "code" : code,
+                      "memDataSize" : "dataSize",
+                      "vaddr" : "SrcReg1"
+                    },
+                    opt_args)
+
+            header_output += MicroEpOpDeclare.subst(iop)
+            decoder_output += MicroEpOpConstructor.subst(iop)
+            exec_output += MicroEpOpExecute.subst(iop)
+            exec_output += MicroEpOpInitiateAcc.subst(iop)
+            exec_output += MicroEpOpCompleteAcc.subst(iop)
+
+        def __new__(mcls, Name, bases, dict):
+            abstract = False
+            name = Name.lower()
+            if "abstract" in dict:
+                abstract = dict['abstract']
+                del dict['abstract']
+
+            cls = super(EpOpMeta, mcls).__new__(mcls, Name, bases, dict)
+            if not abstract:
+                cls.className = Name
+                cls.mnemonic = name
+                code = cls.code
+                op_class = cls.op_class
+
+                # Set up the C++ classes
+                mcls.buildCppClasses(cls, name, Name, code, op_class)
+
+                # Hook into the microassembler dict
+                global microopClasses
+                microopClasses[name] = cls
+
+            return cls
+
+    @six.add_metaclass(EpOpMeta)
+    class EpOp(X86Microop):
+        # This class itself doesn't act as a microop
+        abstract = True
+        op_class = None
+
+        def __init__(self, src1, \
+                flags=None, dataSize="env.dataSize", addressSize="env.addressSize",
+                baseFlags="0", atCPL0=False, prefetch=False, nonSpec=False,
+                implicitStack=False, uncacheable=False):
+            self.src1 = src1
+            self.dataSize = dataSize
+
+            if implicitStack:
+               # For instructions that implicitly access the stack, the address
+               # size is the same as the stack segment pointer size, not the
+               # address size if specified by the instruction prefix
+               addressSize = "env.stackSize"
+
+            self.addressSize = addressSize
+            self.memFlags = baseFlags
+            if atCPL0:
+                self.memFlags += " | (CPL0FlagBit << FlagShift)"
+
+            self.instFlags = "| (1ULL << StaticInst::IsMemRef) | (1ULL << StaticInst::IsLoad)"
+            if prefetch:
+                self.memFlags += " | Request::PREFETCH"
+                self.instFlags += " | (1ULL << StaticInst::IsDataPrefetch)"
+            if nonSpec:
+                self.instFlags += " | (1ULL << StaticInst::IsNonSpeculative)"
+            if uncacheable:
+                self.instFlags += " | (Request::UNCACHEABLE)"
+            if not implicitStack:
+                self.memFlags += " | (machInst.legacy.addr ? " + \
+                         "(AddrSizeFlagBit << FlagShift) : 0)"
+
+            if flags is None:
+                self.ext = 0
+            else:
+                if not isinstance(flags, (list, tuple)):
+                    raise Exception("flags must be a list or tuple of flags")
+                self.ext = " | ".join(flags)
+                #self.className += "Flags"
+
+        def getAllocator(self, microFlags):
+            return '''
+                new %(class_name)s(machInst, macrocodeBlock,
+                    %(flags)s, %(src1)s,
+                    %(dataSize)s, %(addressSize)s,
+                    %(memFlags)s, %(ext)s)
+                ''' % {
+                    "class_name" : self.className,
+                    "flags" : self.microFlagsText(microFlags) + self.instFlags,
+                    "src1" : self.src1,
+                    "dataSize" : self.dataSize,
+                    "addressSize" : self.addressSize,
+                    "memFlags" : self.memFlags,
+                    "ext": self.ext
+            }
+
+    class Rdep(EpOp):
+        op_class = "MemReadOp"
+        code = '''
+            auto isSecure = xc->isPageExecuteProtected(SrcReg1, 0);
+            std::cout << "Addr: " << SrcReg1 << " isSecure: " << isSecure << std::endl;
+            if (isSecure) {
+                // If the ep-bit is set, the EZF bit will be 1.
+                PredezfBit = PredezfBit | (ext & EZFBit);
+            } else {
+                // If the ep-bit is not set, the EZF bit will be 0.
+                PredezfBit = PredezfBit & ~(ext & EZFBit);
+            }
+        '''
+}};

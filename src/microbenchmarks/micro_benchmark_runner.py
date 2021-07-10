@@ -8,14 +8,17 @@ import json
 import subprocess
 import shutil
 
+from helpers import to_gbps, to_mega_ops
+
 output_save = True
 output_show = False
+debug_plots = False
 
 do_checks = 0
 
 # Final settings
 ops_amounts_bases = [10]
-measurements_per_result = 20
+measurements_per_result = 1
 worker_amounts = [1, 2, 4, 6, 8, 10]
 
 # Test settings
@@ -79,6 +82,28 @@ benchmarks = [
             'ops_amounts_factor': 5000,
             'worker_mode': "multithreaded"
     },  
+
+     {
+             'prog_filename' : 'big_read_write',
+             'title' : "read_private_4K_block_in_shared_file",
+             'short_title' : "read_private_4K_block_in_shared_file",
+             'compiler_args' : "-Dbytes_per_op=4096 -Dmode=0",
+             'other_args' : "",
+             'ops_amounts_factor': 200000,
+             'op_size': 4096,
+             'worker_mode': "multithreaded"
+     },  
+     {
+             'prog_filename' : 'big_read_write',
+             'title' : "overwrite_private_4K_block_in_shared_file",
+             'short_title' : "overwrite_private_4K_block_in_shared_file",
+             'compiler_args' : "-Dbytes_per_op=4096 -Dmode=1",
+             'other_args' : "",
+             'ops_amounts_factor': 200000,
+             'op_size': 4096,
+             'worker_mode': "multithreaded"
+     },  
+     
 #     {
 #             'prog_filename' : 'create_file',
 #             'title' : "create_file_in_shared_dir",
@@ -212,6 +237,7 @@ benchmarks = [
             'compiler_args' : "-Dbytes_per_op=4096 -Dmode=0",
             'other_args' : "",
             'ops_amounts_factor': 1000,
+            'op_size': 4096,
             'worker_mode': "multithreaded"
     },  
     #     {
@@ -268,15 +294,15 @@ benchmarks = [
     #          'ops_amounts_factor': 1000,
     #          'worker_mode': "multithreaded"
     #  },  
-     {
-             'prog_filename' : 'big_read_write',
-             'title' : "read_private_2M_block_in_shared_file",
-             'short_title' : "read_private_2M_block_in_shared_file",
-             'compiler_args' : "-Dbytes_per_op=2097152 -Dmode=0",
-             'other_args' : "",
-             'ops_amounts_factor': 1000,
-             'worker_mode': "multithreaded"
-     },  
+    #  {
+    #          'prog_filename' : 'big_read_write',
+    #          'title' : "read_private_2M_block_in_shared_file",
+    #          'short_title' : "read_private_2M_block_in_shared_file",
+    #          'compiler_args' : "-Dbytes_per_op=2097152 -Dmode=0",
+    #          'other_args' : "",
+    #          'ops_amounts_factor': 1000,
+    #          'worker_mode': "multithreaded"
+    #  },  
     #  {
     #          'prog_filename' : 'big_read_write',
     #          'title' : "read_private_2M_block_in_shared_file",
@@ -295,24 +321,6 @@ benchmarks = [
     #          'ops_amounts_factor': 1000,
     #          'worker_mode': "multiprocesses"
     #  }, 
-     {
-             'prog_filename' : 'big_read_write',
-             'title' : "read_private_4K_block_in_shared_file",
-             'short_title' : "read_private_4K_block_in_shared_file",
-             'compiler_args' : "-Dbytes_per_op=4096 -Dmode=0",
-             'other_args' : "",
-             'ops_amounts_factor': 200000,
-             'worker_mode': "multithreaded"
-     },  
-     {
-             'prog_filename' : 'big_read_write',
-             'title' : "overwrite_private_4K_block_in_shared_file",
-             'short_title' : "overwrite_private_4K_block_in_shared_file",
-             'compiler_args' : "-Dbytes_per_op=4096 -Dmode=1",
-             'other_args' : "",
-             'ops_amounts_factor': 200000,
-             'worker_mode': "multithreaded"
-     },  
     #  {
     #          'prog_filename' : 'big_read_write',
     #          'title' : "read_private_4K_block_in_shared_file",
@@ -536,6 +544,7 @@ benchmarks = [
 #         'short_title' : "read_large_file_512M_per_op",
 #         'compiler_args' : "-Dbytes_per_op_M=512 -Dmode=0",
 #         'other_args' : "",
+#         'op_size': 536870912*200,
 #         'worker_mode': "multithreaded"
 #     }, 
 #     {
@@ -544,6 +553,7 @@ benchmarks = [
 #         'short_title' : "write_large_file_512M_per_op",
 #         'compiler_args' : "-Dbytes_per_op_M=512 -Dmode=1",
 #         'other_args' : "",
+#         'op_size': 536870912*200,
 #         'worker_mode': "multithreaded"
 #     }, 
 
@@ -685,6 +695,8 @@ def serialize():
     json_obj["worker_amounts"] = worker_amounts
     json_obj["worker_mode"] = worker_mode
     json_obj["results"] = results
+    json_obj["results_bandwidth"] = results_bandwidth
+    json_obj["results_megaOps"] = results_megaOps
     json_obj["date"] = date
 
     json_file = open("output_temp/"+filename+".json", "w")
@@ -711,6 +723,8 @@ for benchmark in benchmarks:
 
     labels = []
     results = []
+    results_bandwidth = []
+    results_megaOps = []
     date = ""
     filename = ""
 
@@ -752,6 +766,8 @@ for benchmark in benchmarks:
 
     for worker_number in worker_amounts:
         result = []
+        result_bandwidth = []
+        result_megaOps = []
         for op_number in ops_amounts:
             measurements = []
             for single_measurement in range(measurements_per_result):
@@ -767,11 +783,34 @@ for benchmark in benchmarks:
 
             if len(measurements) == 0:
                 add_error_complete_run(short_title)
-                result.append(0)
+                res_time = 0
             else:
-                result.append(sum(measurements) / len(measurements))
+                res_time = sum(measurements) / len(measurements)
+
+            def correct_time (time_complete_ms, n_ops, worker_amount):
+                overhead_ms = 0.0000184 # 46 cycles * 0.4 ns
+                return time_complete_ms + overhead_ms * n_ops / worker_amount
+            
+            if target == "SIMURGH": # add security overhead
+                res_time = correct_time(res_time, op_number, worker_number)
+
+            result.append(res_time)
+
+            if "op_size" in benchmark:
+                result_bandwidth.append(to_gbps(
+                    res_time,
+                    op_number,
+                    benchmark["op_size"]))
+                print(f"{worker_number} workers", f"{result}ms"f"{result_bandwidth}GiB/s")
+            else:
+                result_megaOps.append(to_mega_ops(res_time, op_number))
+                print(f"{worker_number} workers", f"{result}ms", f"{result_megaOps}megaOp/s")
 
         results.append(result)
+        results_bandwidth.append(result_bandwidth)
+        results_megaOps.append(result_megaOps)
+        
+                            
 
     now = datetime.now()
     date = now.strftime("%Y%m%d_%H-%M-%S")
@@ -810,7 +849,7 @@ for benchmark in benchmarks:
 
     #fig.tight_layout()
 
-    if output_save:
+    if output_save and debug_plots:
         plt.savefig("output_temp/"+filename+".pdf")
 
 

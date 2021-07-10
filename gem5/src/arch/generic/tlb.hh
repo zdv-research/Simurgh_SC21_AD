@@ -86,6 +86,7 @@ class BaseTLB : public SimObject
 
   public:
     virtual void demapPage(Addr vaddr, uint64_t asn) = 0;
+    virtual bool isPageExecuteProtected(Addr vaddr, uint64_t asn) = 0;
 
     virtual Fault translateAtomic(
             const RequestPtr &req, ThreadContext *tc, Mode mode) = 0;
