@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-PATH=/home/salkhordeh/projects/simurghad/tar-1.30/tests:/home/salkhordeh/projects/simurghad/tar-1.30/src:/home/salkhordeh/projects/simurghad/tar-1.30/build-aux:$top_srcdir:$srcdir:$PATH
+PATH=/home/salkhordeh/projects/simurghad/tar/tests:/home/salkhordeh/projects/simurghad/tar/src:/home/salkhordeh/projects/simurghad/tar/build-aux:$top_srcdir:$srcdir:$PATH
 
 XFAILFILE=$abs_builddir/.badversion
 

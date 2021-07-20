@@ -3148,8 +3148,8 @@ configure:7858: $? = 0
 configure:7858: result: yes
 configure:7858: checking for _set_invalid_parameter_handler
 configure:7858: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccgszVfG.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:121: undefined reference to `_set_invalid_parameter_handler'
+/usr/bin/ld: /tmp/ccqvx4sv.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:121: undefined reference to `_set_invalid_parameter_handler'
 collect2: error: ld returned 1 exit status
 configure:7858: $? = 1
 configure: failed program was:
@@ -3500,8 +3500,8 @@ configure:7858: $? = 0
 configure:7858: result: yes
 configure:7858: checking for getprogname
 configure:7858: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccZTMjp1.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:138: undefined reference to `getprogname'
+/usr/bin/ld: /tmp/ccDA0RV4.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:138: undefined reference to `getprogname'
 collect2: error: ld returned 1 exit status
 configure:7858: $? = 1
 configure: failed program was:
@@ -3649,8 +3649,8 @@ configure: failed program was:
 configure:7858: result: no
 configure:7858: checking for getexecname
 configure:7858: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/cc2YhTFq.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:138: undefined reference to `getexecname'
+/usr/bin/ld: /tmp/ccoYvXJz.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:138: undefined reference to `getexecname'
 collect2: error: ld returned 1 exit status
 configure:7858: $? = 1
 configure: failed program was:
@@ -3802,8 +3802,8 @@ configure:7858: $? = 0
 configure:7858: result: yes
 configure:7858: checking for nanotime
 configure:7858: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccVgdpUa.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:139: undefined reference to `nanotime'
+/usr/bin/ld: /tmp/ccy1Elpm.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:139: undefined reference to `nanotime'
 collect2: error: ld returned 1 exit status
 configure:7858: $? = 1
 configure: failed program was:
@@ -4112,8 +4112,8 @@ configure:7858: $? = 0
 configure:7858: result: yes
 configure:7858: checking for vasnprintf
 configure:7858: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccLdjhXF.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:173: undefined reference to `vasnprintf'
+/usr/bin/ld: /tmp/ccofJKwJ.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:173: undefined reference to `vasnprintf'
 collect2: error: ld returned 1 exit status
 configure:7858: $? = 1
 configure: failed program was:
@@ -6826,8 +6826,8 @@ configure:16174: $? = 0
 configure:16181: result: yes
 configure:16231: checking for library containing setfilecon
 configure:16262: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/cciXUObm.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:241: undefined reference to `setfilecon'
+/usr/bin/ld: /tmp/ccqYQemo.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:241: undefined reference to `setfilecon'
 collect2: error: ld returned 1 exit status
 configure:16262: $? = 1
 configure: failed program was:
@@ -9556,8 +9556,8 @@ configure:24323: $? = 0
 configure:24334: result: yes
 configure:24374: checking for __xpg4
 configure:24390: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccnM7ICr.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:378: undefined reference to `__xpg4'
+/usr/bin/ld: /tmp/ccHi8VzL.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:378: undefined reference to `__xpg4'
 collect2: error: ld returned 1 exit status
 configure:24390: $? = 1
 configure: failed program was:
@@ -10462,8 +10462,8 @@ configure:27197: $? = 0
 configure:27214: result: yes
 configure:27310: checking for __mktime_internal
 configure:27310: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccvljdlH.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:436: undefined reference to `__mktime_internal'
+/usr/bin/ld: /tmp/ccU8M8Z0.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:436: undefined reference to `__mktime_internal'
 collect2: error: ld returned 1 exit status
 configure:27310: $? = 1
 configure: failed program was:
@@ -11361,8 +11361,8 @@ configure:27794: checking for struct tm.tm_zone
 configure:27794: result: yes
 configure:27870: checking for getppriv
 configure:27870: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccf3Od3z.o: in function `main':
-/home/salkhordeh/projects/simurghad/tar-1.30/conftest.c:448: undefined reference to `getppriv'
+/usr/bin/ld: /tmp/cctbiUcU.o: in function `main':
+/home/salkhordeh/projects/simurghad/tar/conftest.c:448: undefined reference to `getppriv'
 collect2: error: ld returned 1 exit status
 configure:27870: $? = 1
 configure: failed program was:
@@ -21910,6 +21910,7 @@ config.status:2414: creating scripts/Makefile
 config.status:2414: creating rmt/Makefile
 config.status:2414: creating src/Makefile
 config.status:2414: creating config.h
+config.status:2595: config.h is unchanged
 config.status:2643: executing depfiles commands
 config.status:2643: executing po-directories commands
 config.status:2643: executing tests/atconfig commands
@@ -22858,7 +22859,7 @@ tar_cv_path_RSH=/usr/bin/rsh
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing aclocal-1.14'
+ACLOCAL='${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing aclocal-1.14'
 ALLOCA=''
 ALLOCA_H='alloca.h'
 AMDEPBACKSLASH='\'
@@ -22872,10 +22873,10 @@ AM_V='$(V)'
 APPLE_UNIVERSAL_BUILD='0'
 AR='ar'
 ARFLAGS='cr'
-AUTOCONF='${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing autoconf'
-AUTOHEADER='${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing autoheader'
-AUTOM4TE='${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing autom4te'
-AUTOMAKE='${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing automake-1.14'
+AUTOCONF='${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing autoconf'
+AUTOHEADER='${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing autoheader'
+AUTOM4TE='${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing autom4te'
+AUTOMAKE='${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing automake-1.14'
 AWK='gawk'
 BACKUP_LIBEXEC_SCRIPTS=''
 BACKUP_SBIN_SCRIPTS=''
@@ -23504,7 +23505,7 @@ LOCALE_ZH_CN='none'
 LTLIBICONV=''
 LTLIBINTL=''
 LTLIBOBJS=''
-MAKEINFO='${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing makeinfo'
+MAKEINFO='${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing makeinfo'
 MKDIR_P='/bin/mkdir -p'
 MSGFMT='/usr/bin/msgfmt'
 MSGFMT_015='/usr/bin/msgfmt'
@@ -23812,7 +23813,7 @@ host_vendor='pc'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/install-sh'
+install_sh='${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 lispdir='${datarootdir}/emacs/site-lisp'

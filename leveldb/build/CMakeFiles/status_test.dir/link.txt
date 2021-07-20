@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/status_test.dir/util/testharness.cc.o CMakeFiles/status_test.dir/util/testutil.cc.o CMakeFiles/status_test.dir/util/status_test.cc.o  -o status_test  libleveldb.a -lpthread 

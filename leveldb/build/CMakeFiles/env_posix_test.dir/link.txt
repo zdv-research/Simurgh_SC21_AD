@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/env_posix_test.dir/util/testharness.cc.o CMakeFiles/env_posix_test.dir/util/testutil.cc.o CMakeFiles/env_posix_test.dir/util/env_posix_test.cc.o  -o env_posix_test  libleveldb.a -lpthread 

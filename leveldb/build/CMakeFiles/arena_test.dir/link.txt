@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/arena_test.dir/util/testharness.cc.o CMakeFiles/arena_test.dir/util/testutil.cc.o CMakeFiles/arena_test.dir/util/arena_test.cc.o  -o arena_test  libleveldb.a -lpthread 

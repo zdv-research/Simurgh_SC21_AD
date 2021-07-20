@@ -439,7 +439,7 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/salkhordeh/projects/simurghad/tar-1.30'
+ac_pwd='/home/salkhordeh/projects/simurghad/tar'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
@@ -647,7 +647,7 @@ S["LTLIBOBJS"]=""
 S["BACKUP_SED_COND"]="/^\\#ELSE_DATE_FORMAT_OK/,/^\\#ENDIF_DATE_FORMAT_OK/d;/^\\#IF_DATE_FORMAT_OK/d"
 S["BACKUP_SBIN_SCRIPTS"]=""
 S["BACKUP_LIBEXEC_SCRIPTS"]=""
-S["AUTOM4TE"]="${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing autom4te"
+S["AUTOM4TE"]="${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing autom4te"
 S["POSUB"]="po"
 S["INTLLIBS"]=""
 S["INTL_MACOSX_LIBS"]=""
@@ -1560,12 +1560,12 @@ S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]=""
-S["install_sh"]="${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/install-sh"
-S["MAKEINFO"]="${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing autoheader"
-S["AUTOMAKE"]="${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing automake-1.14"
-S["AUTOCONF"]="${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing autoconf"
-S["ACLOCAL"]="${SHELL} /home/salkhordeh/projects/simurghad/tar-1.30/build-aux/missing aclocal-1.14"
+S["install_sh"]="${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/install-sh"
+S["MAKEINFO"]="${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing makeinfo"
+S["AUTOHEADER"]="${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing autoheader"
+S["AUTOMAKE"]="${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing automake-1.14"
+S["AUTOCONF"]="${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing autoconf"
+S["ACLOCAL"]="${SHELL} /home/salkhordeh/projects/simurghad/tar/build-aux/missing aclocal-1.14"
 S["VERSION"]="1.30"
 S["PACKAGE"]="tar"
 S["CYGPATH_W"]="echo"

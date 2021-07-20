@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/hash_test.dir/util/testharness.cc.o CMakeFiles/hash_test.dir/util/testutil.cc.o CMakeFiles/hash_test.dir/util/hash_test.cc.o  -o hash_test  libleveldb.a -lpthread 

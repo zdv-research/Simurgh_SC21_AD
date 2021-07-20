@@ -1,0 +1,231 @@
+Determining if the function crc32c_value exists in the crc32c failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_72e88/fast && /usr/bin/make -f CMakeFiles/cmTC_72e88.dir/build.make CMakeFiles/cmTC_72e88.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_72e88.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=crc32c_value   -std=c11 -o CMakeFiles/cmTC_72e88.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_72e88
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_72e88.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=crc32c_value    CMakeFiles/cmTC_72e88.dir/CheckFunctionExists.c.o  -o cmTC_72e88  -lcrc32c 
+/usr/bin/ld: cannot find -lcrc32c
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_72e88.dir/build.make:87: cmTC_72e88] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_72e88/fast] Error 2
+
+
+
+Determining if the function snappy_compress exists in the snappy failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c99b3/fast && /usr/bin/make -f CMakeFiles/cmTC_c99b3.dir/build.make CMakeFiles/cmTC_c99b3.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c99b3.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=snappy_compress   -std=c11 -o CMakeFiles/cmTC_c99b3.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_c99b3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c99b3.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=snappy_compress    CMakeFiles/cmTC_c99b3.dir/CheckFunctionExists.c.o  -o cmTC_c99b3  -lsnappy 
+/usr/bin/ld: cannot find -lsnappy
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_c99b3.dir/build.make:87: cmTC_c99b3] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_c99b3/fast] Error 2
+
+
+
+Determining if the function malloc exists in the tcmalloc failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_83d58/fast && /usr/bin/make -f CMakeFiles/cmTC_83d58.dir/build.make CMakeFiles/cmTC_83d58.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_83d58.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=malloc   -std=c11 -o CMakeFiles/cmTC_83d58.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘malloc’; expected ‘void *(long unsigned int)’ [-Wbuiltin-declaration-mismatch]
+/usr/share/cmake-3.16/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/usr/share/cmake-3.16/Modules/CheckFunctionExists.c:1:1: note: ‘malloc’ is declared in header ‘<stdlib.h>’
+  +++ |+#include <stdlib.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_83d58
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_83d58.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=malloc    CMakeFiles/cmTC_83d58.dir/CheckFunctionExists.c.o  -o cmTC_83d58  -ltcmalloc 
+/usr/bin/ld: cannot find -ltcmalloc
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_83d58.dir/build.make:87: cmTC_83d58] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_83d58/fast] Error 2
+
+
+
+Determining if the fdatasync exist failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_62d0d/fast && /usr/bin/make -f CMakeFiles/cmTC_62d0d.dir/build.make CMakeFiles/cmTC_62d0d.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_62d0d.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_62d0d.dir/CheckSymbolExists.c.o   -c /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c: In function ‘main’:
+/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: ‘fdatasync’ undeclared (first use in this function)
+    8 |   return ((int*)(&fdatasync))[argc];
+      |                   ^~~~~~~~~
+/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: note: each undeclared identifier is reported only once for each function it appears in
+make[1]: *** [CMakeFiles/cmTC_62d0d.dir/build.make:66: CMakeFiles/cmTC_62d0d.dir/CheckSymbolExists.c.o] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_62d0d/fast] Error 2
+
+
+File /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <unistd.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef fdatasync
+  return ((int*)(&fdatasync))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Performing C++ SOURCE FILE Test HAVE_CLANG_THREAD_SAFETY failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_90754/fast && /usr/bin/make -f CMakeFiles/cmTC_90754.dir/build.make CMakeFiles/cmTC_90754.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_90754.dir/src.cxx.o
+/usr/bin/c++    -DHAVE_CLANG_THREAD_SAFETY -Werror   -std=c++11 -o CMakeFiles/cmTC_90754.dir/src.cxx.o -c /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/src.cxx
+/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/src.cxx:2:34: error: ‘lockable’ attribute directive ignored [-Werror=attributes]
+    2 | struct __attribute__((lockable)) Lock {
+      |                                  ^~~~
+/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/src.cxx:3:59: error: ‘exclusive_lock_function’ attribute directive ignored [-Werror=attributes]
+    3 |   void Acquire() __attribute__((exclusive_lock_function()));
+      |                                                           ^
+/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/src.cxx:4:51: error: ‘unlock_function’ attribute directive ignored [-Werror=attributes]
+    4 |   void Release() __attribute__((unlock_function()));
+      |                                                   ^
+/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/src.cxx:8:46: error: ‘guarded_by’ attribute directive ignored [-Werror=attributes]
+    8 |   int data_ __attribute__((guarded_by(lock_)));
+      |                                              ^
+cc1plus: all warnings being treated as errors
+make[1]: *** [CMakeFiles/cmTC_90754.dir/build.make:66: CMakeFiles/cmTC_90754.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_90754/fast] Error 2
+
+
+Source file was:
+
+struct __attribute__((lockable)) Lock {
+  void Acquire() __attribute__((exclusive_lock_function()));
+  void Release() __attribute__((unlock_function()));
+};
+struct ThreadSafeType {
+  Lock lock_;
+  int data_ __attribute__((guarded_by(lock_)));
+};
+int main() { return 0; }
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_45842/fast && /usr/bin/make -f CMakeFiles/cmTC_45842.dir/build.make CMakeFiles/cmTC_45842.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_45842.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -std=c11 -o CMakeFiles/cmTC_45842.dir/src.c.o   -c /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_45842
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_45842.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_45842.dir/src.c.o  -o cmTC_45842 
+/usr/bin/ld: CMakeFiles/cmTC_45842.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_45842.dir/build.make:87: cmTC_45842] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_45842/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_85f5c/fast && /usr/bin/make -f CMakeFiles/cmTC_85f5c.dir/build.make CMakeFiles/cmTC_85f5c.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_85f5c.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -std=c11 -o CMakeFiles/cmTC_85f5c.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_85f5c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85f5c.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_85f5c.dir/CheckFunctionExists.c.o  -o cmTC_85f5c  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_85f5c.dir/build.make:87: cmTC_85f5c] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_85f5c/fast] Error 2
+
+
+
+Determining if the function sqlite3_open exists in the sqlite3 failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_3bb59/fast && /usr/bin/make -f CMakeFiles/cmTC_3bb59.dir/build.make CMakeFiles/cmTC_3bb59.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_3bb59.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=sqlite3_open   -std=c11 -o CMakeFiles/cmTC_3bb59.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_3bb59
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3bb59.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=sqlite3_open    CMakeFiles/cmTC_3bb59.dir/CheckFunctionExists.c.o  -o cmTC_3bb59  -lsqlite3 
+/usr/bin/ld: cannot find -lsqlite3
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_3bb59.dir/build.make:87: cmTC_3bb59] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_3bb59/fast] Error 2
+
+
+
+Performing C++ SOURCE FILE Test HAVE_KYOTOCABINET failed with the following output:
+Change Dir: /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_3b798/fast && /usr/bin/make -f CMakeFiles/cmTC_3b798.dir/build.make CMakeFiles/cmTC_3b798.dir/build
+make[1]: Entering directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_3b798.dir/src.cxx.o
+/usr/bin/c++    -DHAVE_KYOTOCABINET   -std=c++11 -o CMakeFiles/cmTC_3b798.dir/src.cxx.o -c /home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/src.cxx
+/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp/src.cxx:2:10: fatal error: kcpolydb.h: No such file or directory
+    2 | #include <kcpolydb.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_3b798.dir/build.make:66: CMakeFiles/cmTC_3b798.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/salkhordeh/projects/simurghad/leveldb/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_3b798/fast] Error 2
+
+
+Source file was:
+
+#include <kcpolydb.h>
+
+int main() {
+  kyotocabinet::TreeDB* db = new kyotocabinet::TreeDB();
+  delete db;
+  return 0;
+}
+  
