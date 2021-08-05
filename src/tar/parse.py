@@ -3,11 +3,13 @@ import pprint
 
 folder_to_parse="."
 
-files_to_parse=["3_add_timing", "6_commit_timing", "11_reset_timing"]
+files_to_parse=["2_compress", "4_extract"]
 
 timings = {}
 
 for folder in next(os.walk(folder_to_parse))[1]:
+    if not folder.startswith("output"):
+        continue
     print(folder)
     title = folder.split("_")[1].split("_")[0]
     timings[title] = []
@@ -37,7 +39,7 @@ for folder in next(os.walk(folder_to_parse))[1]:
     print(" ")
 
 pp = pprint.PrettyPrinter(indent=4)
-pp.pprint(["add", "commit", "reset"])
+pp.pprint(["compress", "extract"])
 pp.pprint(timings)
 
 

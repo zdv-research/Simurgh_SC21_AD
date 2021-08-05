@@ -122,9 +122,9 @@ sync; echo 3 > /proc/sys/vm/drop_caches;
 
 echo "Compress:"
 echo $tar_exec -cf $repo_path/linux.tar $RAM_DISK/linux-5.6.14
-if [[ $TARGET_FS == "SIMURGH" ]] ; then set_preloads ; fi
+set_preloads
 { time $tar_exec -cf $repo_path/linux.tar $RAM_DISK/linux-5.6.14 ; } 2> $output_folder/2_compress_$run_i.txt
-if [[ $TARGET_FS == "SIMURGH" ]] ; then unset_preloads ; fi
+unset_preloads
 if [[ $2 == "VALGRIND" ]] ; then mv callgrind.out "$output_folder/callgrind_2_compress_$run_i.out" ; fi
 cat $output_folder/2_compress_$run_i.txt
 echo ""
@@ -144,9 +144,9 @@ sync; echo 3 > /proc/sys/vm/drop_caches;
 
 echo "Extract:"
 echo $tar_exec -xf $RAM_DISK/linux.tar -C $repo_path
-if [[ $TARGET_FS == "SIMURGH" ]] ; then set_preloads ; fi
+set_preloads
 { time $tar_exec -xf $RAM_DISK/linux.tar -C $repo_path ; } 2> $output_folder/4_extract_$run_i.txt
-if [[ $TARGET_FS == "SIMURGH" ]] ; then unset_preloads ; fi
+unset_preloads
 if [[ $2 == "VALGRIND" ]] ; then mv callgrind.out "$output_folder/callgrind_4_extract_$run_i.out" ; fi
 cat $output_folder/4_extract_$run_i.txt
 echo ""

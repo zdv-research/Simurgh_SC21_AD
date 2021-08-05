@@ -45,15 +45,15 @@ function run_workload {
     if [[ $TARGET_FS == "SIMURGH" ]] ; then ../bash/format_simurgh.sh ; fi
 
     echo $leveldb_build_dir/db_bench --use_existing_db=1 --benchmarks=ycsb,stats,printdb --db=$repo_path --threads=1 --open_files=1000
-    if [[ $TARGET_FS == "SIMURGH" ]] ; then set_preloads ; fi
+    set_preloads
     mkdir -p $repo_path
     cp $BENCHMARK_REPO_DIR/$YCSB_DATA/* $repo_path
-    if [[ $TARGET_FS == "SIMURGH" ]] ; then unset_preloads ; fi
+    unset_preloads
     sync; echo 3 > /proc/sys/vm/drop_caches;
 
-    if [[ $TARGET_FS == "SIMURGH" ]] ; then set_preloads ; fi
-    $leveldb_build_dir/db_bench --use_existing_db=1 --benchmarks=ycsb,stats,printdb --db=$repo_path --threads=1 --open_files=1000  2>&1 | tee $output_folder/runa
-    if [[ $TARGET_FS == "SIMURGH" ]] ; then unset_preloads ; fi
+    set_preloads
+    $leveldb_build_dir/db_bench --use_existing_db=1 --benchmarks=ycsb,stats,printdb --db=$repo_path --threads=1 --open_files=1000  2>&1 | tee $output_folder/$1
+    unset_preloads
 
 
 }
@@ -117,16 +117,18 @@ export trace_file=$BENCHMARK_REPO_DIR/leveldb/workloads/loada_5M
 
 output_folder="output_$TARGET_FS_$current_date"
 
+export output_folder
+
 mkdir "$output_folder"
 
 sync; echo 3 > /proc/sys/vm/drop_caches;
 
 echo "Load A"
 echo "$leveldb_build_dir/db_bench --use_existing_db=0 --benchmarks=ycsb,stats,printdb --db=$repo_path --threads=1 --open_files=1000"
-if [[ $TARGET_FS == "SIMURGH" ]] ; then set_preloads ; fi
+set_preloads
 mkdir -p $repo_path
 $leveldb_build_dir/db_bench --use_existing_db=0 --benchmarks=ycsb,stats,printdb --db=$repo_path --threads=1 --open_files=1000  2>&1 | tee $output_folder/loada
-if [[ $TARGET_FS == "SIMURGH" ]] ; then unset_preloads ; fi
+unset_preloads
 
 run_workload runa_5M_5M
 
@@ -144,10 +146,10 @@ export trace_file=$BENCHMARK_REPO_DIR/leveldb/workloads/loade_5M
 if [[ $TARGET_FS == "SIMURGH" ]] ; then ../bash/format_simurgh.sh ; fi
 
 echo "$leveldb_build_dir/db_bench --use_existing_db=0 --benchmarks=ycsb,stats,printdb --db=$repo_path --threads=1 --open_files=1000"
-if [[ $TARGET_FS == "SIMURGH" ]] ; then set_preloads ; fi
+set_preloads
 mkdir -p $repo_path
-$leveldb_build_dir/db_bench --use_existing_db=0 --benchmarks=ycsb,stats,printdb --db=$repo_path --threads=1 --open_files=1000  2>&1 | tee $output_folder/loada
-if [[ $TARGET_FS == "SIMURGH" ]] ; then unset_preloads ; fi
+$leveldb_build_dir/db_bench --use_existing_db=0 --benchmarks=ycsb,stats,printdb --db=$repo_path --threads=1 --open_files=1000  2>&1 | tee $output_folder/loade
+unset_preloads
 
 run_workload rune_5M_1M
 

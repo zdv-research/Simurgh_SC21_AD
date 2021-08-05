@@ -3,7 +3,6 @@
 
 Simurgh is a user level file system library for NVMMs. We proposes the concept of protected functions to provide hardware assisted security to user level libraries without direct OS involvement. Using protected functions Simurgh is able to provide fine grained security to user level code. The repository contains setups, instructions and benchmarks to produce results presented in SC21 submission. The experiments are divided into Simurgh file system library and the modified gem5 simulator and the ISA extensions for the proposed hardware instructions. 
 
-
 ## Contents
 
 * [Repository structure](#repository-structure)
@@ -85,6 +84,8 @@ The returned `dev` name (e.g. `namespace0.0`) has to be set in the `config.sh` a
 Applications can use Simurgh by preloading the Simurgh file system library (`LD_PRELOAD=libfs.so`).
 The shared DRAM and persistent address space can be formatted using the `simurgh` binary with `f` argument. 
 For benchmarks, that are performed by our supplied bash scripts, a manual preload or format is not required.
+Directory `/pm:` must be created before running the tests. If is used in some benchmarks to hold the lock file.
+Simurgh uses `/dev/dax0.0` device.
 
 #### NOVA
 Our benchmarks use [`NOVA`](https://github.com/NVSL/linux-nova/tree/5.1) version `5.1` within kernel `5.1.0`. The kernel has to be build with NOVA modules enabled.  
@@ -153,12 +154,13 @@ Example:
 
 In the first step, the correct kernels have to be prepared and booted.  
 Outputs will be generated in the `src` directory of the corresponding benchmark or printed on the standard output.
+You can use `python3 parse.py` provided in benchmark directory in `src` to extract result values.
 For some benchmarks, no running script is provided. In this case, the detail section below contains easy to follow steps.
 
 ### Benchmark details
 
 Between different measurements, file system caches are cleared. In case of independent iterations, file systems are formatted between runs.
-The provided scripts will take care of that. If run manually (e.g. for `tar` or `YCSB` measurements), clearing caches can be done by
+The provided scripts will take care of that. If run manually, clearing caches can be done by
 ```
 sync; echo 3 > /proc/sys/vm/drop_caches;
 ```
@@ -186,23 +188,14 @@ Within the benchmark, a full recovery procedure is performed. The Simurgh librar
 Use `./run_recovery.sh SIMURGH` to perform. 
 
 #### Tar
-To measure the performance of file systems on Tar, We copied the full source code of Linux kernel into the file system. Then, the buffer cache of the OS is flushed and cleared. Next, we used the following command to create the tar file and measured the execution time.
+To measure the performance of file systems on Tar, We copied the full source code of Linux kernel into the file system. Then, the buffer cache of the OS is flushed and cleared. Next, we created the tar file and measured the execution time. Then we removed the source directory, and flushed the cache and used extracted files.
 
-```bash
-tar cf linux.tar linux-5.1.0
-```
-
-Next, we removed the source directory, and flushed the cache and used the following command to extract files.
-
-```bash
-tar xf linux.tar
-```
-
-Before executing the commands above, the used file system has to preloaded or mounted. Scripts in `src/bash` can be used for that.
-
+Use `./run_tar.sh SIMURGH` to perform. 
 
 #### YCSB
 To achieve a fair comparison, we used the same source code and workflow proposed by SplitFS to run YCSB. The details of running the benchmark and obtaining the results can be found in [this](https://github.com/utsaslab/SplitFS/blob/master/experiments.md) link.
+
+Use `./run_ycsb.sh SIMURGH` to perform. 
 
 For the execution time breakdown, we ran the YCSB script with the following prefix command. 
 
