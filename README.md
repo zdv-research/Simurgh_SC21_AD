@@ -3,6 +3,8 @@
 
 Simurgh is a user level file system library for NVMMs. We proposes the concept of protected functions to provide hardware assisted security to user level libraries without direct OS involvement. Using protected functions Simurgh is able to provide fine grained security to user level code. The repository contains setups, instructions and benchmarks to produce results presented in SC21 submission. The experiments are divided into Simurgh file system library and the modified gem5 simulator and the ISA extensions for the proposed hardware instructions. 
 
+[SC21 Presentation Slides](SC21_Presentation.pdf)
+
 ## Contents
 
 * [Repository structure](#repository-structure)
